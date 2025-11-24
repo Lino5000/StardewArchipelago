@@ -20,6 +20,7 @@ namespace StardewArchipelago.Constants.Modded
             { ModNames.YOBA, "[CP] Yoba NPC" },
             { ModNames.BOARDING_HOUSE, "CP Boarding House" },
             { ModNames.LACEY, "Hat Mouse Lacey - Core" },
+            { ModNames.GREENHOUSE_SPRINKLERS, "GreenhouseSprinklers" },
         };
     }
 }

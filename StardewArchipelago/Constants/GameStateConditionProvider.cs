@@ -74,6 +74,8 @@ namespace StardewArchipelago.Constants
                 noBuildingConditions.Add(CreateHasBuildingAnywhereCondition(deluxeBuildingName, false));
                 return ConcatenateConditions(noBuildingConditions, hasBuilding);
             }
+            // TODO: Implement this for Greenhouse Sprinkler Upgrades
+            // Piggy-back off the mod's existing checks?
 
             return ConcatenateConditions(noBuildingConditions, hasBuilding);
         }
@@ -99,6 +101,15 @@ namespace StardewArchipelago.Constants
             else if (_buildingNameReplacements.ContainsKey(buildingName))
             {
                 itemName = _buildingNameReplacements[buildingName];
+            }
+            else if (buildingName.StartsWith(Prefix.GREENHOUSE_SPRINKLER, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var remainder = itemName[Prefix.GREENHOUSE_SPRINKLER.Length..].Trim();
+                if (remainder.Length >= 1) // First upgrade is just the prefix
+                {
+                    amount = int.Parse(remainder);
+                }
+                itemName = $"Progressive Hidden Sprinklers";
             }
             return CreateHasReceivedItemCondition(itemName, amount);
         }

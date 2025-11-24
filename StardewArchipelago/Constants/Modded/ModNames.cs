@@ -28,6 +28,7 @@
         public const string DISTANT_LANDS = "Distant Lands - Witch Swamp Overhaul";
         public const string LACEY = "Hat Mouse Lacey";
         public const string BOARDING_HOUSE = "Boarding House and Bus Stop Extension";
+        public const string GREENHOUSE_SPRINKLERS = "Greenhouse Sprinklers";
 
         public const string AP_CP_SVE = "Stardew Valley Expanded";
         public const string AP_CP_SVE_PATCH = "StardewAP - SVE Patch";

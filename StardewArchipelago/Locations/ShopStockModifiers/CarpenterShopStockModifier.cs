@@ -52,6 +52,10 @@ namespace StardewArchipelago.Locations.ShopStockModifiers
         public const string TRACTOR_GARAGE_ID = "Pathoschild.TractorMod_Stable";
         public const string TRACTOR_GARAGE_NAME = "Tractor Garage";
 
+        public const string GREENHOUSE_SPRINKLERS_1 = "Greenhouse Sprinkler Upgrade";
+        public const string GREENHOUSE_SPRINKLERS_2 = "Greenhouse Sprinkler Upgrade 2";
+        public const string GREENHOUSE_SPRINKLERS_3 = "Greenhouse Sprinkler Upgrade 3";
+
         public CarpenterShopStockModifier(ILogger logger, IModHelper modHelper, StardewArchipelagoClient archipelago, StardewItemManager stardewItemManager) : base(logger, modHelper, archipelago, stardewItemManager)
         {
         }
@@ -109,6 +113,14 @@ namespace StardewArchipelago.Locations.ShopStockModifiers
             if (_archipelago.SlotData.Mods.HasMod(ModNames.TRACTOR))
             {
                 AddCheckToStock(checksToAdd, TRACTOR_GARAGE_NAME, 150_000, new[] { IronBar(20), IridiumBar(5), BatteryPack(5) });
+            }
+
+            if (_archipelago.SlotData.Mods.HasMod(ModNames.GREENHOUSE_SPRINKLERS))
+            {
+                // TODO: Previous building and wizard friendship requirements: Simplest might be to use the wizard letters?
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_1, 20_000, new[] { QualitySprinkler(5), BatteryPack(1) });
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_2, 30_000, new[] { IridiumSprinkler(5), BatteryPack(5) });
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_3, 50_000, new[] { IridiumSprinkler(20), BatteryPack(10) });
             }
 
             if (_archipelago.SlotData.IncludeEndgameLocations)
@@ -242,6 +254,16 @@ namespace StardewArchipelago.Locations.ShopStockModifiers
         private static Item BatteryPack(int amount)
         {
             return StardewObject(ObjectIds.BATTERY_PACK, amount);
+        }
+
+        private static Item QualitySprinkler(int amount)
+        {
+            return StardewObject(ObjectIds.QUALITY_SPRINKLER, amount);
+        }
+
+        private static Item IridiumSprinkler(int amount)
+        {
+            return StardewObject(ObjectIds.IRIDIUM_SPRINKLER, amount);
         }
 
         private static Item StardewObject(string objectId, int amount)

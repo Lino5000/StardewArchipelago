@@ -34,6 +34,7 @@ namespace StardewArchipelago.Constants.Modded
             { ModNames.DISTANT_LANDS, $"2.2.{WILDCARD}" },
             { ModNames.LACEY, $"1.6.{WILDCARD}" },
             //{ ModNames.BOARDING_HOUSE, "4.0.16" },
+            { ModNames.GREENHOUSE_SPRINKLERS, $"3.0.{WILDCARD}" },
         };
 
         public class ContentPatcherRequirement
