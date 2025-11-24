@@ -4211,6 +4211,10 @@
         "Digging Like Worms": {
             "code": 727722,
             "classification": "filler"
+        },
+        "Progressive Hidden Sprinklers": {
+            "code": 727801,
+            "classification": "progression"
         }
     }
 }

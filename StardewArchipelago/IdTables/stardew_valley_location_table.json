@@ -23933,6 +23933,24 @@
             "region": "Farm",
             "tags": ["BOOKSANITY", "BOOKSANITY_SKILL"],
             "content_packs": ["Archaeology"]
+        },
+        "Greenhouse Sprinkler Upgrade Blueprint": {
+            "code": 776001,
+            "region": "Carpenter Shop",
+            "tags": ["BUILDING_BLUEPRINT"],
+            "content_packs": ["Greenhouse Sprinklers"]
+        },
+        "Greenhouse Sprinkler Upgrade 2 Blueprint": {
+            "code": 776002,
+            "region": "Carpenter Shop",
+            "tags": ["BUILDING_BLUEPRINT"],
+            "content_packs": ["Greenhouse Sprinklers"]
+        },
+        "Greenhouse Sprinkler Upgrade 3 Blueprint": {
+            "code": 776003,
+            "region": "Carpenter Shop",
+            "tags": ["BUILDING_BLUEPRINT"],
+            "content_packs": ["Greenhouse Sprinklers"]
         }
     }
 }
