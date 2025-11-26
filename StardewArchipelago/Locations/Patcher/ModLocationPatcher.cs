@@ -48,6 +48,7 @@ namespace StardewArchipelago.Locations.Patcher
                 AddSkullCavernElevatorModInjections();
                 AddSVEModInjections();
                 AddBoardingHouseInjections();
+                AddGreenhouseSprinklersInjections();
                 PatchSVEShops();
             }
             catch (Exception ex)
@@ -288,6 +289,22 @@ namespace StardewArchipelago.Locations.Patcher
             _harmony.Patch(
                 original: AccessTools.Method(typeof(ShopMenu), nameof(ShopMenu.update)),
                 postfix: new HarmonyMethod(typeof(BoardingHouseInjections), nameof(BoardingHouseInjections.Update_ReplaceDwarfShopChecks_Postfix))
+            );
+        }
+
+        private void AddGreenhouseSprinklersInjections()
+        {
+            if (!_archipelago.SlotData.Mods.HasMod(ModNames.GREENHOUSE_SPRINKLERS))
+            {
+                return;
+            }
+
+            var modType = AccessTools.TypeByName("Bpendragon.GreenhouseSprinklers.ModEntry");
+            Type[] argTypes = {typeof(int)};
+            _harmony.Patch(
+                original: AccessTools.Method(modType, "AddLetterIfNeeded", argTypes),
+                postfix: new HarmonyMethod(typeof(GreenhouseSprinklerInjections),
+                    nameof(GreenhouseSprinklerInjections.AddLetterIfNeeded_CheckPreviousLevels_Postfix))
             );
         }
     }

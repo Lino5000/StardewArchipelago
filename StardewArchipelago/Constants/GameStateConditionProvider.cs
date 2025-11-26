@@ -48,19 +48,6 @@ namespace StardewArchipelago.Constants
 
         public static string CreateHasBuildingOrHigherCondition(string buildingName, bool hasBuilding)
         {
-            // TODO: Surely there's a better place for modded buildings?
-            // This has to be before the catch-all in the next condition
-            if (buildingName.StartsWith(Prefix.GREENHOUSE_SPRINKLER, StringComparison.InvariantCultureIgnoreCase))
-            {
-                int queryLevel = GetGreenhouseSprinklerLevel(buildingName);
-                string cond = CreateGreenhouseSprinklerBuiltAtLeastCondition(queryLevel);
-                if (!hasBuilding)
-                {
-                    cond = InvertCondition(cond);
-                }
-                return cond;
-            }
-
             var noBuildingConditions = new List<string>();
             noBuildingConditions.Add(CreateHasBuildingAnywhereCondition(buildingName, false));
 
@@ -126,16 +113,21 @@ namespace StardewArchipelago.Constants
             { "Pathoschild.TractorMod_Stable", "Tractor Garage" },
         };
 
-        private static int GetGreenhouseSprinklerLevel(string buildingName)
+        public static int GetGreenhouseSprinklerLevel(string buildingName)
         {
             var level = buildingName[Prefix.GREENHOUSE_SPRINKLER.Length..];
             return int.Parse(level);
         }
 
-        public static string CreateGreenhouseSprinklerBuiltAtLeastCondition(int level)
+        public static string CreateGreenhouseSprinklerBuiltAtLeastCondition(int level, bool invert)
         {
             string[] args = {$"{level}"};
-            return CreateCondition(GameStateCondition.HAS_BUILT_GREENHOUSE_SPRINKLERS, args);
+            var cond = CreateCondition(GameStateCondition.HAS_BUILT_GREENHOUSE_SPRINKLERS, args);
+            if (invert)
+            {
+                return InvertCondition(cond);
+            }
+            return cond;
         }
 
         public static string CreateHasStockSizeCondition(double minimumStock)

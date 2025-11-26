@@ -49,6 +49,10 @@ namespace StardewArchipelago.Locations.CodeInjections.Initializers
             {
                 BoardingHouseInjections.Initialize(logger, locationChecker, _archipelago);
             }
+            if (_archipelago.SlotData.Mods.HasMod(ModNames.GREENHOUSE_SPRINKLERS))
+            {
+                GreenhouseSprinklerInjections.Initialize(logger, modHelper, _archipelago);
+            }
         }
     }
 }
