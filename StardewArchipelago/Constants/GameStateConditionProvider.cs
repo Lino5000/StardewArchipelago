@@ -48,6 +48,19 @@ namespace StardewArchipelago.Constants
 
         public static string CreateHasBuildingOrHigherCondition(string buildingName, bool hasBuilding)
         {
+            // TODO: Surely there's a better place for modded buildings?
+            // This has to be before the catch-all in the next condition
+            if (buildingName.StartsWith(Prefix.GREENHOUSE_SPRINKLER, StringComparison.InvariantCultureIgnoreCase))
+            {
+                int queryLevel = GetGreenhouseSprinklerLevel(buildingName);
+                string cond = CreateGreenhouseSprinklerBuiltAtLeastCondition(queryLevel);
+                if (!hasBuilding)
+                {
+                    cond = InvertCondition(cond);
+                }
+                return cond;
+            }
+
             var noBuildingConditions = new List<string>();
             noBuildingConditions.Add(CreateHasBuildingAnywhereCondition(buildingName, false));
 
@@ -74,8 +87,6 @@ namespace StardewArchipelago.Constants
                 noBuildingConditions.Add(CreateHasBuildingAnywhereCondition(deluxeBuildingName, false));
                 return ConcatenateConditions(noBuildingConditions, hasBuilding);
             }
-            // TODO: Implement this for Greenhouse Sprinkler Upgrades
-            // Piggy-back off the mod's existing checks?
 
             return ConcatenateConditions(noBuildingConditions, hasBuilding);
         }
@@ -104,11 +115,7 @@ namespace StardewArchipelago.Constants
             }
             else if (buildingName.StartsWith(Prefix.GREENHOUSE_SPRINKLER, StringComparison.InvariantCultureIgnoreCase))
             {
-                var remainder = itemName[Prefix.GREENHOUSE_SPRINKLER.Length..].Trim();
-                if (remainder.Length >= 1) // First upgrade is just the prefix
-                {
-                    amount = int.Parse(remainder);
-                }
+                amount = GetGreenhouseSprinklerLevel(itemName);
                 itemName = $"Progressive Hidden Sprinklers";
             }
             return CreateHasReceivedItemCondition(itemName, amount);
@@ -118,6 +125,18 @@ namespace StardewArchipelago.Constants
         {
             { "Pathoschild.TractorMod_Stable", "Tractor Garage" },
         };
+
+        private static int GetGreenhouseSprinklerLevel(string buildingName)
+        {
+            var level = buildingName[Prefix.GREENHOUSE_SPRINKLER.Length..];
+            return int.Parse(level);
+        }
+
+        public static string CreateGreenhouseSprinklerBuiltAtLeastCondition(int level)
+        {
+            string[] args = {$"{level}"};
+            return CreateCondition(GameStateCondition.HAS_BUILT_GREENHOUSE_SPRINKLERS, args);
+        }
 
         public static string CreateHasStockSizeCondition(double minimumStock)
         {
@@ -138,6 +157,12 @@ namespace StardewArchipelago.Constants
         public static string CreateMineralsCondition(string[] minerals)
         {
             return CreateCondition(GameStateCondition.FOUND_MINERAL, minerals);
+        }
+
+        public static string CreateMailCondition(string player, string mailId, string type = "Any")
+        {
+            string[] arguments = { player, mailId, type };
+            return CreateCondition(GameStateCondition.HAS_RECEIVED_MAIL, arguments);
         }
 
         public static string CreateCondition(string condition, string[] arguments)

@@ -69,6 +69,7 @@ namespace StardewArchipelago.Locations.CodeInjections.Vanilla
 
         private void AddFreeBuildings(IDictionary<string, BuildingData> buildingsData)
         {
+            _logger.LogInfo("Adding Free Buildings");
             foreach (var buildingName in buildingsData.Keys.ToArray())
             {
                 var buildingData = buildingsData[buildingName];
@@ -82,6 +83,15 @@ namespace StardewArchipelago.Locations.CodeInjections.Vanilla
                 var archipelagoCondition = GameStateConditionProvider.GetReceivedBuildingCondition(buildingName);
                 var hasBuildingCondition = GameStateConditionProvider.CreateHasBuildingOrHigherCondition(buildingName, true);
                 var doesNotHaveBuildingCondition = GameStateConditionProvider.CreateHasBuildingOrHigherCondition(buildingName, false);
+
+                if (buildingName.StartsWith("GreenhouseSprinklers.Upgrade", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    _logger.LogInfo($"{buildingName}:");
+                    _logger.LogInfo($"    AP cond: {archipelagoCondition}");
+                    _logger.LogInfo($"    B1 cond: {hasBuildingCondition}");
+                    _logger.LogInfo($"    B2 cond: {doesNotHaveBuildingCondition}");
+                    hasBuildingCondition = "FALSE"; // Don't include the option to build multiple times, since that would break things
+                }
 
                 freebuildingData.BuildCost = 0;
                 freebuildingData.BuildMaterials?.Clear();

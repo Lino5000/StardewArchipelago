@@ -10,6 +10,8 @@ namespace StardewArchipelago.Constants
         public static readonly string FOUND_ARTIFACT = CreateId("FoundArtifact");
         public static readonly string FOUND_MINERAL = CreateId("FoundMineral");
         public static readonly string HAS_CRAFTING_RECIPE = "PLAYER_HAS_CRAFTING_RECIPE";
+        public static readonly string HAS_RECEIVED_MAIL = "PLAYER_HAS_MAIL";
+        public static readonly string HAS_BUILT_GREENHOUSE_SPRINKLERS = CreateId("HasBuiltGreenhouseSprinklers");
 
         private static string CreateId(string name)
         {

@@ -117,10 +117,9 @@ namespace StardewArchipelago.Locations.ShopStockModifiers
 
             if (_archipelago.SlotData.Mods.HasMod(ModNames.GREENHOUSE_SPRINKLERS))
             {
-                // TODO: Previous building and wizard friendship requirements: Simplest might be to use the wizard letters?
-                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_1, 20_000, new[] { QualitySprinkler(5), BatteryPack(1) });
-                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_2, 30_000, new[] { IridiumSprinkler(5), BatteryPack(5) });
-                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_3, 50_000, new[] { IridiumSprinkler(20), BatteryPack(10) });
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_1, 20_000, new[] { QualitySprinkler(5), BatteryPack(1) }, GetGreenhouseLetterCondition(1));
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_2, 30_000, new[] { IridiumSprinkler(5), BatteryPack(5) }, GetGreenhouseLetterCondition(2));
+                AddCheckToStock(checksToAdd, GREENHOUSE_SPRINKLERS_3, 50_000, new[] { IridiumSprinkler(20), BatteryPack(10) }, GetGreenhouseLetterCondition(3));
             }
 
             if (_archipelago.SlotData.IncludeEndgameLocations)
@@ -188,6 +187,21 @@ namespace StardewArchipelago.Locations.ShopStockModifiers
 
             var queryForThisBuilding = GameStateConditionProvider.CreateHasBuildingOrHigherCondition(requiredBuilding, true);
             return queryForThisBuilding;
+        }
+
+        private static string GetGreenhouseLetterCondition(int level)
+        {
+            string mailId = $"Bpendragon.GreenhouseSprinklers.Wizard{level}";
+            var queries = new List<string> {
+                GameStateConditionProvider.CreateMailCondition("Any", mailId)
+            };
+            if (level == 1)
+            {
+                // Level 1 has an alternate letter for the Joja route, we need to check for either being sent
+                string mailIdB = $"Bpendragon.GreenhouseSprinklers.Wizard{level}b";
+                queries.Add(GameStateConditionProvider.CreateMailCondition("Any", mailIdB));
+            }
+            return GameStateConditionProvider.CreateOrCondition(queries);
         }
 
         private string GetMaterialString(ISalable material, double priceMultiplier)

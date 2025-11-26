@@ -11,6 +11,9 @@ using StardewArchipelago.Archipelago.Gifting;
 using StardewArchipelago.Serialization;
 using StardewArchipelago.Stardew;
 using StardewArchipelago.Locations;
+using StardewArchipelago.Constants.Modded;
+using StardewValley.Buildings;
+using HarmonyLib;
 
 namespace StardewArchipelago.Registry
 {
@@ -38,6 +41,7 @@ namespace StardewArchipelago.Registry
                 GameStateQuery.Register(GameStateCondition.HAS_STOCK_SIZE, TravelingMerchantInjections.HasStockSizeQueryDelegate);
                 GameStateQuery.Register(GameStateCondition.FOUND_ARTIFACT, ArtifactsFoundQueryDelegate);
                 GameStateQuery.Register(GameStateCondition.FOUND_MINERAL, MineralsFoundQueryDelegate);
+                GameStateQuery.Register(GameStateCondition.HAS_BUILT_GREENHOUSE_SPRINKLERS, GreenhouseSprinklersBuiltQueryDelegate);
             }
             catch (Exception ex)
             {
@@ -99,6 +103,30 @@ namespace StardewArchipelago.Registry
                 return false;
             }
             return true;
+        }
+
+        private bool GreenhouseSprinklersBuiltQueryDelegate(string[] query, GameStateQueryContext context)
+        {
+            if (!_archipelago.SlotData.Mods.HasMod(ModNames.GREENHOUSE_SPRINKLERS))
+            {
+                return false;
+            }
+            if (!query.Any())
+            {
+                return false;
+            }
+            bool parseSuccess = int.TryParse(query[1], out int queryLevel);
+            if (!parseSuccess)
+            {
+                _logger.LogError($"Invalid query: {query.Join(delimiter: " ")}. {query[1]} Could not be parsed as int.");
+                return false;
+            }
+            var greenhouse = Game1.getFarm().buildings.OfType<GreenhouseBuilding>().FirstOrDefault();
+            var builtLevel = greenhouse.modData.TryGetValue("Bpendragon.GreenhouseSprinklers.GHLevel", out string levelStr)
+                ? int.Parse(levelStr)
+                : 0;
+
+            return queryLevel <= builtLevel;
         }
     }
 }
