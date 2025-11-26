@@ -49,3 +49,12 @@ For the sake of aligning several mods with the randomizer, certain modifications
 ## Skull Cavern Elevator
 
 - With mines elevators shuffled, the elevator floors are also shuffled, up to level 200.  Upon receiving the last level as an item, you may gain elevators normally.
+
+## Greenhouse Sprinklers
+
+- The "Progressive Hidden Sprinklers" items unlock the ability to build each upgrade at Robin in order.
+    - You can skip upgrades without breaking anything, if you happen to unlock multiple at once.
+- The Blueprint items in Robin's shop are unlocked by the regular letters from the Wizard. These require having built *at least* the previous upgrade, and having received suficient heart items for the Wizard.
+    - All base costs, including the required Wizard hearts, are following the default Medium difficulty preset.
+- Since the Vanilla behaviour of the upgrades is progressive, there is no difference between those options in the `building_progression` setting. However, the `cheap` and `very_cheap` cost modifiers do still apply.
+    - The cost modifiers do *not* apply to the Wizard heart requirements for the letters, only to the gold and material quantities for buying the blueprint checks.
